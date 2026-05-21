@@ -1,0 +1,55 @@
+# Desarrollo web en Entorno Servidor
+# Entorno de desarrollo para Laravel (sin Sail)
+services:
+  # --- TU ENTORNO DE TRABAJO (APP) ---
+  app:
+    build: .
+    container_name: laravel_db_db
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./home:/var/www/html
+    ports:
+      - "8000:8000" # Acceso web a Laravel
+      - "5173:5173" # Acceso a Vite (hot reload)
+    depends_on:
+      - db
+    networks:
+      - red-dwes
+
+  # --- BASE DE DATOS ---
+  db:
+    image: mysql:8.0
+    container_name: lara_db_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: dwes
+      MYSQL_PASSWORD: dwes
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - red-dwes
+
+  # --- PHPMYADMIN (Gestor visual de BD) ---
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel_pma_db
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8080:80" # Entrarás por http://localhost:8080
+    depends_on:
+      - db
+    networks:
+      - red-dwes
+
+volumes:
+  db_data:
+
+networks:
+  red-dwes:
+    driver: bridge
