@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobCode extends Model
 {
-    //
+        protected $fillable=[
+        'name',
+        'billing_code'
+    ];
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserInfoSeeder extends Seeder
@@ -18,7 +19,8 @@ class UserInfoSeeder extends Seeder
         DB::table('user_infos')->insert([
             'user_id'=>User::factory()->create([
                 'name'=>'Normal User',
-                'email'=>'user@example.com'
+                'email'=>'user@example.com',
+                'password'=>Hash::make('abc123')
             ])->id,
             'admin'=>false,
             'created_at'=>date('Y/m/d H:i:s'),
@@ -27,7 +29,9 @@ class UserInfoSeeder extends Seeder
         DB::table('user_infos')->insert([
             'user_id'=>User::factory()->create([
                 'name'=>'Admin User',
-                'email'=>'admin@example.com'
+                'email'=>'admin@example.com',
+                'password'=>Hash::make('abc123')
+
             ])->id,
             'admin'=>true,
             'created_at'=>date('Y/m/d H:i:s'),
