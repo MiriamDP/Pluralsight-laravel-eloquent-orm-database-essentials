@@ -4,7 +4,7 @@ services:
   # --- TU ENTORNO DE TRABAJO (APP) ---
   app:
     build: .
-    container_name: laravel_db_db
+    container_name: laravel_orm
     restart: unless-stopped
     tty: true
     volumes:
@@ -16,11 +16,14 @@ services:
       - db
     networks:
       - red-dwes
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
   # --- BASE DE DATOS ---
   db:
     image: mysql:8.0
-    container_name: lara_db_db
+    container_name: laravel_db_orm
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -31,11 +34,14 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - red-dwes
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
   # --- PHPMYADMIN (Gestor visual de BD) ---
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: laravel_pma_db
+    container_name: laravel_pma_orm
     environment:
       PMA_HOST: db
       PMA_USER: root
@@ -46,6 +52,9 @@ services:
       - db
     networks:
       - red-dwes
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
 volumes:
   db_data:
