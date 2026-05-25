@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        //aqui $middleware->alias(['FilterIP'=>FilterIpMiddleware:class]) con todo el path
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
