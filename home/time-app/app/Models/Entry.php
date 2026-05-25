@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Entry extends Model
@@ -17,6 +18,11 @@ class Entry extends Model
 
     public function job():HasOne
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(JobCode::class, 'id','job_id');
+    }
+
+    public function approvals():HasMany
+    {
+        return $this->hasMany(Approval::class, 'entry_id','id');
     }
 }
