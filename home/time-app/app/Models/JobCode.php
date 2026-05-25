@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class JobCode extends Model
 {
-        protected $fillable=[
+    // use HasFactory;
+
+    protected $fillable = [
         'name',
-        'billing_code'
+        'billing_code',
     ];
 }

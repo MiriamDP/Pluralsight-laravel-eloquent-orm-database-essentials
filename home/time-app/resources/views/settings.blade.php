@@ -5,27 +5,30 @@
   $user = Auth::user();
 @endphp
 
-@if (Session::has('success'))
-<p class="success">Settings Updated</p>
-@endif
+@session('success')
+<p class="success">{{ $value }}</p>
+@endsession
+
+@foreach ($errors->all() as $error)
+  <p class="error">{{ $error }}</p>
+@endforeach
 
 <form method="POST">
   @csrf
   <label>
     Name
-    <input name="email" type="text" value="{{ $user->name }}" autofocus required>
+    <input name="name" type="text" value="{{ $user->name }}" autofocus required>
   </label>
   <label>
     Email
-    <input name="email" type="text" value="{{ $user->email }}" required>
+    <input name="email" type="email" value="{{ $user->email }}" required>
   </label>
   <label>
     Password
-    <input name="password" type="password">
+    <input name="password" type="password" placeholder="min 8 characters">
+    <small>leave empty to remain unchanged</small>
   </label>
   <button type="submit">Save</button>
-  @if (session('error'))
-    <span class="error">{{ session('error') }}</span>
-  @endif
+  <button type="reset">Reset</button>
 </form>
 @endsection

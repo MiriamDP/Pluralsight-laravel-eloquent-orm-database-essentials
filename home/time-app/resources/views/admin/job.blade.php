@@ -2,28 +2,31 @@
 @section('title', 'Admin - Job Code')
 @section('content')
 @php
-  $job = \App\Models\JobCode::find(request()->get('job'));
+  if (request()->has('id')) {
+    $action = 'edit';
+    $job = \App\Models\JobCode::find(request()->get('id'));
+  } else {
+    $action = 'add';
+  }
 @endphp
 
-@if (Session::has('success'))
-<p class="success">Settings Updated</p>
-@endif
+@foreach ($errors->all() as $error)
+  <p class="error">{{ $error }}</p>
+@endforeach
 
-<form method="POST">
+<form method="POST" action="/admin/job/{{ $action }}">
   @csrf
+  <input type="hidden" name="id" value="{{ isset($job) ? $job->id : old('id') }}">
   <label>
     Name
-    <input name="name" type="text" value="{{ $job->name }}" autofocus required>
+    <input name="name" type="text" value="{{ isset($job) ? $job->name : old('name') }}" autofocus required>
   </label>
   <label>
-    Email
-    <input name="billing_code" type="text" value="{{ $job->billing_code }}" required>
+    Billing Code
+    <input name="billing_code" type="text" value="{{ isset($job) ? $job->billing_code : old('billing_code') }}" required>
   </label>
 
-  <button type="submit">Save</button>
+  <button type="submit">{{ ucfirst($action) }}</button>
   <button type="button" onclick="location.href='/admin'">Cancel</button>
-  @if (session('error'))
-    <span class="error">{{ session('error') }}</span>
-  @endif
 </form>
 @endsection

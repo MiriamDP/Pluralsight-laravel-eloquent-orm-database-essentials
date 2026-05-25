@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Entry;
+use App\Models\UserInfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -34,6 +36,18 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user)
+        {
+            UserInfo::create([
+                'user_id' => $user->id,
+            ]);
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -47,16 +61,26 @@ class User extends Authenticatable
         ];
     }
 
-    public function user(): HasOne
+    /**
+     * Get the info associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function info(): HasOne
     {
         return $this->hasOne(UserInfo::class);
     }
 
-    public function isAdmin(){
+    public function isAdmin() {
         return $this->info->admin;
     }
 
-    public function entries():HasMany
+    /**
+     * Get all of the entries for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function entries(): HasMany
     {
         return $this->hasMany(Entry::class);
     }

@@ -2,41 +2,43 @@
 @section('title', 'Admin - User')
 @section('content')
 @php
-  $user = \App\Models\User::find(request()->get('user'));
+  if (request()->has('id')) {
+    $action = 'edit';
+    $user = \App\Models\User::find(request()->get('id'));
+  } else {
+    $action = 'add';
+  }
 @endphp
 
-@if (Session::has('success'))
-<p class="success">Settings Updated</p>
-@endif
+@foreach ($errors->all() as $error)
+  <p class="error">{{ $error }}</p>
+@endforeach
 
-<form method="POST">
+<form method="POST" action="/admin/user/{{ $action }}">
   @csrf
+  <input type="hidden" name="id" value="{{ isset($user) ? $user->id : old('id') }}">
   <label>
     Name
-    <input name="email" type="text" value="{{ $user->name }}" autofocus required>
+    <input name="name" type="text" value="{{ isset($user) ? $user->name : old('name') }}" autofocus required>
   </label>
   <label>
     Email
-    <input name="email" type="text" value="{{ $user->email }}" required>
+    <input name="email" type="email" value="{{ isset($user) ? $user->email : old('email') }}" required>
   </label>
   <label>
     Password
     <input name="password" type="password">
+    <small>leave empty to remain unchanged</small>
   </label>
   <label>
     Admin
     <input type="checkbox" name="admin"
-      {{ $user->isAdmin() ? 'checked' : '' }}
-      {{ Auth::user()->id == $user->id ? 'disabled' : '' }}
-      >
-
-    {{-- <input name="admin" type="password"> --}}
+      @checked(isset($user) && $user->isAdmin())
+      @disabled(isset($user) && Auth::user()->id == $user->id)
+    >
   </label>
 
   <button type="submit">Save</button>
   <button type="button" onclick="location.href='/admin'">Cancel</button>
-  @if (session('error'))
-    <span class="error">{{ session('error') }}</span>
-  @endif
 </form>
 @endsection

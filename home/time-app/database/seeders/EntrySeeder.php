@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class EntrySeeder extends Seeder
@@ -14,16 +14,17 @@ class EntrySeeder extends Seeder
      */
     public function run(): void
     {
-        $faker=Faker::create();
-        foreach(range(1,20) as $index){
+        $faker = Faker::create();
+
+        foreach (range(1, 20) as $index) {
             DB::table('entries')->insert([
-                'user_id'=>$faker->numberBetween(1,2),
-                'job_id'=>$faker->numberBetween(1,4),
-                'entry_date'=>$faker->dateTimeThisYear(),
-                'hours'=>($faker->numberBetween(10,100))/10,
-                'description'=>$faker->text(20),
-                'created_at'=>$faker->dateTimeThisYear(),
-                'updated_at'=>$faker->dateTimeThisYear(),
+                'user_id' => $faker->numberBetween(1, 2),
+                'job_id' => $faker->numberBetween(1, 4),
+                'entry_date' => $faker->dateTimeThisYear(),
+                'hours' => ($faker->numberBetween(10, 250)) / 10,
+                'description' => $faker->text(20),
+                'created_at' => $faker->dateTimeThisYear(),
+                'updated_at' => $faker->dateTimeThisYear(),
             ]);
         }
     }

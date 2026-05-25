@@ -1,0 +1,100 @@
+body {
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+header,
+main,
+footer {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+nav ul {
+  margin: 1em 0 2em 0;
+  padding: 0;
+  background: black;
+  list-style-type: none;
+  display: flex;
+}
+nav ul li + li {
+  margin-left: 1em;
+}
+nav ul a {
+  display: inline-block;
+  padding: 0.5em 1em;
+  color: white;
+}
+nav ul li.active {
+  background: lightblue;
+}
+nav ul li.active a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  pointer-events: none;
+  cursor: pointer;
+}
+nav ul li.logout {
+  margin-left: auto;
+}
+
+form {
+  display: block;
+  margin: auto;
+}
+
+label {
+  display: block;
+}
+input,
+textarea,
+select {
+  display: block;
+  font-size: 1rem;
+}
+label + label,
+label + button {
+  margin-top: 1em;
+}
+button {
+  font-size: 1rem;
+}
+
+.error {
+  font-weight: bold;
+  color: red;
+}
+
+.warning {
+  font-weight: bold;
+  color: darkorange;
+}
+
+.success {
+  font-weight: bold;
+  color: green;
+}
+
+table, td, th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+}
+
+thead {
+  background: black;
+  color: white;
+}
+
+td, th {
+  margin: 0;
+  padding: 0.5em;
+}
+
+footer {
+  margin-top: 3em;
+}

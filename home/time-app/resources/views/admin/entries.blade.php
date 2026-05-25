@@ -1,11 +1,22 @@
 @extends('layouts.default')
 @section('title', 'Admin Entries')
 @section('content')
+
 @php
   $userid = request()->get('user');
   $user = \App\Models\User::find($userid);
 @endphp
+
 <h2>Time Entries for {{ $user->name }}</h2>
+
+@session('success')
+  <p class="success">{{ $value }}</p>
+@endsession
+
+@foreach ($errors->all() as $error)
+  <p class="error">{{ $error }}</p>
+@endforeach
+
 <table>
   <thead>
     <tr>
@@ -13,22 +24,23 @@
       <th>Date</th>
       <th>Hours</th>
       <th>Description</th>
-      <th>Approved</th>
-      <th></th>
+      <th>Approval</th>
     </tr>
   </thead>
   <tbody>
     @foreach ($user->entries as $entry)
       <tr>
         <td>{{ $entry->job->name }}</td>
-        <td>{{ $entry->entry_date }}</td>
+        <td>{{ $entry->entry_date->format('m/d/Y') }}</td>
         <td>{{ $entry->hours }}</td>
         <td>{{ $entry->description }}</td>
         <td style="text-align: center">
-          {!! $entry->approvals->count() > 0 ? '&checkmark;' : '' !!}
-        </td>
-        <td>
-          <a href="/admin/entries?user={{ $userid }}&approve={{ $entry->id}}">Approve</a>
+          @foreach ($entry->approvals as $approval)
+            <div>{{ $approval->approver->name }}</div>
+          @endforeach
+          @if ($entry->myApproval->isEmpty())
+            <a href="/admin/entries/approve?id={{ $entry->id}}">Approve</a>
+          @endif
         </td>
       </tr>
     @endforeach

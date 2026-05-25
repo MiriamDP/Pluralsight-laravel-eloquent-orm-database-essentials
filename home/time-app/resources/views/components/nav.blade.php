@@ -4,8 +4,8 @@
       <li @class(['active' => URL::current() == route('home')])>
         <a href="/">Home</a>
       </li>
-      <li @class(['active' => URL::current() == route('entry')])>
-        <a href="/entry">Time Entry</a>
+      <li @class(['active' => URL::current() == route('entries')])>
+        <a href="/entries">Time Entry</a>
       </li>
       <li @class(['active' => URL::current() == route('settings')])>
         <a href="/settings">Settings</a>
